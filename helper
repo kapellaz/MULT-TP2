@@ -1,0 +1,56 @@
+AULA 1:
+
+    MoodsStrPlit tem as emoções que cada musica contem.
+
+    GenresSlit : genero da musica
+
+
+    Ficheiro com Features:
+    -   top100_features- conjunto de descritores que estao relacionadaos com o que vimos na teorica xD
+        (features melonicas, de ritmo...); basicamente é o conteudo da musica
+
+    Exemplo a F525: coeficiente , uma feature que capta o timbre da musica
+            F 1152: mediana do espetro, frequencia mediana do espetro, tem um grupo de "captacao" de conteudo
+
+    instalcao librosa.
+    necessario instalar o ffmpeg
+
+
+    mrs.py, importar o librosa, o sounddevice
+
+    librosa.load  retorna y - onda sonora e f - frequencia de amostragem
+
+
+    sd.play, com blocking false para ele executar o som e seguir para as linhas seguintes.
+
+
+    abrir ficheiro e as features é o mais importante
+
+
+
+    Normalizar as features faz com que as funcionalidades corram melhor
+
+
+    So temos de estudar a que ele diz,
+
+    Temporais: F0 esta no Core IO
+
+
+    Usar os paramtros por omissão
+
+
+    no 2.3 temos de fazer as features de raiz, sem usar o librosa.
+
+    Comparar os resultados depois com o librosa. (se estiver muito diferente do librosa, algo de errado não está correto!!!)
+
+
+
+
+
+
+
+
+________________________________(Basicamente é procurar onde estão estaas features)________________________________
+
+
+
