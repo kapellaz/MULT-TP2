@@ -54,3 +54,89 @@ ________________________________(Basicamente é procurar onde estão estaas feat
 
 
 
+
+AULA 2 :
+
+
+    2.1 -> ler file numpy.genfromtxt 
+        lê o file e guarda numa matriz numpy
+
+        descartar a ultima coluna, a primeira coluna, e a 1º linha
+        fazer logo na leitura, ou depois de ler...
+
+    2.1.2 -> temos features com gama de valores mt distintos
+
+    slide 99
+        a = 0  e b = 1
+        fn(i) = a  +((F(i) - min(F))*(b-a)/max(F) - min(F))
+
+
+       f = [1,2,3,1,3,4,1] --> min(F) = 1,  e max(F) = 4
+
+
+       a + f - min/max-min ---> f - 1 / 3
+
+       feat N = [0, 0.33,0.66,0.33,0.66,1,0.33]
+
+        tratamento de excecoes --> se feature for constante (min == max) --> fn = 0
+
+        partimos do file csv
+
+
+        --> Guarda-se em csv com o numpy.savetxt
+
+    2.2
+        https://librosa.org/doc/main/feature.html
+
+        no librosa->doc->feature extraction
+
+        ir buscar à BD com sr = 22050 Hz, mono,window legth = frame length = 92.88 ms e hop length = 23.22 ms
+         antes de guardar as features em array temos de calcular as 7 estatisticas
+
+
+         rmsseq = [..........]
+
+            [m,dp,sk,kv,md,max,min]
+
+        
+
+        MFCC SEQ = 13 * []
+
+        13 * N --> 13 * 7 --> USAR O FLetten, ficando assim 1* 91
+        isto para o MFCC 
+
+
+        Para o Spectral constrast --> 7 * N
+
+
+
+        -> o tempo dá um unico valor, logo nao temos de calcular nenhuma estatistica
+
+
+        Para validar os resultados, usar a ordem do enunciado, para bater certinho com o stor.
+
+
+
+
+        MFCC total de Features: 13 * 7
+        Centroid = 7
+        BandWidth = 7
+        Contrast = 7 * 7
+        Flatness = 7
+        Rollof = 7
+        F0 = 7
+        RMS = 7
+        ZCR = 7
+        Tempo = 1
+
+
+        TOTAL 190 FEATURES:
+
+        é preciso a assimetria e curtose.. o resto o numpy tem as funcoes
+        
+
+
+
+
+
+
