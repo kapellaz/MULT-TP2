@@ -133,10 +133,17 @@ AULA 2 :
         TOTAL 190 FEATURES:
 
         é preciso a assimetria e curtose.. o resto o numpy tem as funcoes
-        
 
 
 
+NO F0 :
+
+    min = 20
+    max = 11205
+
+    seq[seq == maxF] = 0
+    librosa.featyre.spectralrollof(y)
+    FM,indS,indEnd = updateFMsats(sq,nstats,dim,FM,i,.....)
 
 
 
