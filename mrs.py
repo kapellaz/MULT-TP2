@@ -15,12 +15,13 @@ import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 if __name__ == "__main__":
     plt.close('all')
-    
+    plt.show()
     #--- Load file
     #fName = "--/Queries/MT0000414517.mp3"
-    fName = "../Queries/MT0000202045.mp3"
+    fName = "Queries/MT0000202045.mp3"
     sr = 22050
     mono = True
     warnings.filterwarnings("ignore")
@@ -51,4 +52,5 @@ if __name__ == "__main__":
     plt.figure(), plt.plot(times, rms)
     plt.xlabel('Time (s)')
     plt.title('RMS')
+    plt.show()
     
