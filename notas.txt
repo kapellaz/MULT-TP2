@@ -1,0 +1,73 @@
+def get_statistics(feature):
+    if len(feature.shape) == 1:
+        feature = feature.reshape(1, feature.shape[0])
+
+    nl = feature.shape[0]
+    feature_statistics = np.zeros((nl, 7))
+
+    for i in range(nl):
+        mean = feature[i, :].mean()
+        std = feature[i, :].std()
+        skew = scp.skew(feature[i, :])
+        kurtosis = scp.kurtosis(feature[i, :])
+        median = np.median(feature[i, :])
+        mx = feature[i, :].max()
+        mn = feature[i, :].min()
+        feature_statistics[i, :] = np.array([mean, std, skew, kurtosis, median, mx, mn]) 
+    
+
+    return feature_statistics.flatten()
+
+def extract_features(audioName):
+    sample_rate = 22050
+    use_mono = True
+    f0_min_freq = 20
+    f0_max_freq = sample_rate//2
+    mfcc_dim = 13
+
+    y, _ = lb.load(audioName, sr=sample_rate, mono=use_mono)
+
+    mfcc = lb.feature.mfcc(y=y, n_mfcc=mfcc_dim)
+    sp_centroid = lb.feature.spectral_centroid(y=y)
+    sp_bandwidth = lb.feature.spectral_bandwidth(y=y)
+    sp_contrast = lb.feature.spectral_contrast(y=y, n_bands=6)
+    sp_flatness = lb.feature.spectral_flatness(y=y)
+    sp_rolloff = lb.feature.spectral_rolloff(y=y)    
+    f0 = lb.yin(y=y, fmin=f0_min_freq, fmax=f0_max_freq)
+    f0[f0 == f0_max_freq] = 0
+    rms = lb.feature.rms(y=y)
+    zcr = lb.feature.zero_crossing_rate(y=y)
+    tempo = lb.beat.tempo(y=y)
+    
+    features = [mfcc, sp_centroid, sp_bandwidth, sp_contrast, sp_flatness, sp_rolloff, f0, rms, zcr]
+
+    statistics = np.zeros(190)
+    prev = 0
+    for f in features:
+        stats = get_statistics(f)
+        #print(stats, len(stats))
+        statistics[prev:prev+len(stats)] = stats
+        prev += len(stats)
+
+    statistics[-1] = tempo
+    return statistics.reshape(1, 190)
+
+
+
+"""
+features = np.zeros((900, 190))
+for i, music in enumerate (os.listdir(Features900)):
+    print(music)
+    path = os.path.join(Features900,music)
+    features[i, :] = extract_features(path)
+from sklearn import preprocessing
+def normalize(feature):
+    return preprocessing.minmax_scale(feature, feature_range=(0, 1))
+def normalize_features(features):
+    return np.apply_along_axis(normalize, 0, features) # 0 = columns  
+
+np.savetxt("finalNot.csv",features,delimiter=',',fmt="%.6f")
+ 
+np.savetxt("final.csv",normalize_features(features),delimiter=',',fmt="%.6f")
+ 
+"""
