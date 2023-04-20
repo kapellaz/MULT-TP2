@@ -8,10 +8,11 @@ import numpy as np
 import librosa as lb
 import os
 import scipy.stats as scp
+import warnings
 
 SR = 22050
 
-Calcula3_1 = False
+Calcula3_1 = True
 Features900 = "MER_audio_taffc_dataset\FeaturesQuadrantes"
 
 
@@ -126,6 +127,8 @@ def extractLibrosa2_1_1():
 def exercicio3_1():
     dataLib = np.genfromtxt(
         'resultadosStor/FMrosa.csv', delimiter=",")
+    #dataLib = np.genfromtxt(
+    #    'Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
     dataTop = np.genfromtxt(
         'Features - Audio MER/top100_features_normalized.csv', delimiter=",")
     if(Calcula3_1):
@@ -183,6 +186,7 @@ def manhattan_distance(dataLib, dataTop):
                DataFinalTop, delimiter=',', fmt="%.6f")
 
 
+
 def cosseno_distance(dataLib, dataTop):
     linhas, colunas = np.shape(dataLib)
 
@@ -206,13 +210,85 @@ def cosseno_distance(dataLib, dataTop):
                DataFinalLib, delimiter=',', fmt="%.6f")
     np.savetxt("Features - Audio MER/top100_features_normalized_cosseno.csv",
                DataFinalTop, delimiter=',', fmt="%.6f")
+    
+
+
+def build_matrix(musica):
+    file = 'MER_audio_taffc_dataset/panda_dataset_taffc_metadata.csv'
+    data = np.genfromtxt(file, dtype=np.str_,delimiter=",")
+
+    res = np.where(musica == data[:,0])[0][0]
+    
+    print("Query " + musica)
+
+    #Euclidiana
+    DataFinalLib = np.genfromtxt("Features - Audio MER/EuclidianaLibrosa.csv", dtype=np.str_,delimiter=",")
+    DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_euclidiana.csv", dtype=np.str,delimiter=",")
+
+    librosaValues = DataFinalLib[res-1]
+    librosaValues = np.argsort(librosaValues)
+
+    top100Values = DataFinalTop[res-1]
+    top100Values = np.argsort(top100Values)
+
+    finalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
+    finaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
+    print("Euclidean Librosa:")
+    print(finalLibrosa)
+    print("Euclidean Top 100:")
+    print(finaltop100)
+    print("\n")
+
+    #Manhathan
+    DataFinalLib = np.genfromtxt("Features - Audio MER\ManhattanLibrosa.csv", dtype=np.str_,delimiter=",")
+    DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_manhattan.csv", dtype=np.str,delimiter=",")
+
+    librosaValues = DataFinalLib[res-1]
+    librosaValues = np.argsort(librosaValues)
+
+    top100Values = DataFinalTop[res-1]
+    top100Values = np.argsort(top100Values)
+
+    finalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
+    finaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
+    print("Manhatan Librosa:")
+    print(finalLibrosa)
+    print("Manhatan Top 100:")
+    print(finaltop100)
+    print("\n")
+
+    #Cosseno
+
+    DataFinalLib = np.genfromtxt("Features - Audio MER\CossenoLibrosa.csv", dtype=np.str_,delimiter=",")
+    DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_cosseno.csv", dtype=np.str,delimiter=",")
+
+    librosaValues = DataFinalLib[res-1]
+    librosaValues = np.argsort(librosaValues)
+
+    top100Values = DataFinalTop[res-1]
+    top100Values = np.argsort(top100Values)
+
+    finalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
+    finaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
+    print("Cosine Librosa:")
+    print(finalLibrosa)
+    print("Cosine Top 100:")
+    print(finaltop100)
+    print("\n")
+
 
 
 def main():
     # read_csv()
     # extractLibrosa2_1_1()
     # data = np.genfromtxt('resultadosStor/FMrosa.csv', delimiter=",")
-    exercicio3_1()
+    warnings.filterwarnings("ignore")
+    #exercicio3_1()
+
+    for arq in sorted(os.listdir("Queries")):
+        file = arq[:-4]
+        build_matrix('"'+file+'"')
+        print("\n\n")
 
 
 if __name__ == "__main__":
