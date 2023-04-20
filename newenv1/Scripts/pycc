@@ -1,0 +1,3 @@
+#!c:\users\conta\onedrive\ambiente de trabalho\mult-tp2\newenv1\scripts\python.exe
+from numba.pycc import main
+main()
