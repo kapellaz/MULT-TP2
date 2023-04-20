@@ -11,7 +11,7 @@ import scipy.stats as scp
 
 SR = 22050
 
-
+Calcula3_1 = False
 Features900 = "MER_audio_taffc_dataset\FeaturesQuadrantes"
 
 
@@ -121,13 +121,17 @@ def extractLibrosa2_1_1():
         matrix), delimiter=',', fmt="%.6f")
 
 
+# Exercicio 3.1
+
 def exercicio3_1():
     dataLib = np.genfromtxt(
         'resultadosStor/FMrosa.csv', delimiter=",")
     dataTop = np.genfromtxt(
         'Features - Audio MER/top100_features_normalized.csv', delimiter=",")
-
-    euclidean_distance(dataLib, dataTop)
+    if(Calcula3_1):
+        euclidean_distance(dataLib, dataTop)
+        manhattan_distance(dataLib, dataTop)
+        cosseno_distance(dataLib, dataTop)
 
 
 def euclidean_distance(dataLib, dataTop):
@@ -151,6 +155,56 @@ def euclidean_distance(dataLib, dataTop):
     np.savetxt("Features - Audio MER/EuclidianaLibrosa.csv",
                DataFinalLib, delimiter=',', fmt="%.6f")
     np.savetxt("Features - Audio MER/top100_features_normalized_euclidiana.csv",
+               DataFinalTop, delimiter=',', fmt="%.6f")
+
+
+def manhattan_distance(dataLib, dataTop):
+    linhas, colunas = np.shape(dataLib)
+
+    DataFinalLib = np.zeros((900, 900), dtype=np.float64)
+
+    DataFinalTop = np.zeros((900, 900), dtype=np.float64)
+
+    for linha1 in range(linhas):
+        for linha2 in range(linhas):
+            if linha1 == linha2:
+                DataFinalLib[linha1][linha2] = -1
+                DataFinalTop[linha1][linha2] = -1
+            else:
+
+                DataFinalLib[linha1][linha2] = np.sum(np.abs(
+                    dataLib[linha1] - dataLib[linha2]))
+                DataFinalTop[linha1][linha2] = np.sum(np.abs(
+                    dataTop[linha1] - dataTop[linha2]))
+
+    np.savetxt("Features - Audio MER/ManhattanLibrosa.csv",
+               DataFinalLib, delimiter=',', fmt="%.6f")
+    np.savetxt("Features - Audio MER/top100_features_normalized_manhattan.csv",
+               DataFinalTop, delimiter=',', fmt="%.6f")
+
+
+def cosseno_distance(dataLib, dataTop):
+    linhas, colunas = np.shape(dataLib)
+
+    DataFinalLib = np.zeros((900, 900), dtype=np.float64)
+
+    DataFinalTop = np.zeros((900, 900), dtype=np.float64)
+
+    for linha1 in range(linhas):
+        for linha2 in range(linhas):
+            if linha1 == linha2:
+                DataFinalLib[linha1][linha2] = -1
+                DataFinalTop[linha1][linha2] = -1
+            else:
+                DataFinalLib[linha1][linha2] = 1 - np.dot(dataLib[linha1], dataLib[linha2]) / (
+                    np.linalg.norm(dataLib[linha1])*np.linalg.norm(dataLib[linha2]))
+
+                DataFinalTop[linha1][linha2] = 1 - np.dot(dataTop[linha1], dataTop[linha2]) / (
+                    np.linalg.norm(dataTop[linha1])*np.linalg.norm(dataTop[linha2]))
+
+    np.savetxt("Features - Audio MER/CossenoLibrosa.csv",
+               DataFinalLib, delimiter=',', fmt="%.6f")
+    np.savetxt("Features - Audio MER/top100_features_normalized_cosseno.csv",
                DataFinalTop, delimiter=',', fmt="%.6f")
 
 
