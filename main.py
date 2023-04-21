@@ -237,6 +237,8 @@ def build_matrix(musica):
 
     #Euclidiana
     DataFinalLib = np.genfromtxt("Features - Audio MER/EuclidianaLibrosa.csv", dtype=np.str_,delimiter=",")
+    #DataFinalLib = np.genfromtxt("resultadosTP2\der.csv", dtype=np.str_,delimiter=",")
+
     DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_euclidiana.csv", dtype=np.str,delimiter=",")
 
     librosaValues = DataFinalLib[res-1]
