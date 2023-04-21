@@ -9,6 +9,7 @@ import librosa as lb
 import os
 import scipy.stats as scp
 import warnings
+import sys
 
 SR = 22050
 
@@ -97,8 +98,9 @@ def extractLibrosa2_1_1():
                 stats, 1, spectral_rolloff).flatten()
 
             min = 20
-            max = 11205
-            fzero = lb.core.yin(y=y, fmin=min, fmax=max)
+            max = 11025
+            #fzero = lb.core.yin(y=y, fmin=min, fmax=max)
+            fzero = lb.yin(y=y, fmin=min, fmax=max)
             fzero[fzero == max] = 0
 
             fzero = np.apply_along_axis(stats, 0, fzero).flatten()
@@ -115,20 +117,31 @@ def extractLibrosa2_1_1():
             matrix[l] = np.concatenate((mfccs, spectral_centroid, spectral_bandwith, spectral_contrast,
                                        spectral_flatness, spectral_rolloff, fzero, rms, zero_crossing_rate, tempo))
 
-    print(matrix.shape)
-    np.savetxt("librosaNotNormalized0100.csv",
+    
+    #print(mfccs.shape)
+    #print(spectral_centroid.shape)
+    #print(spectral_bandwith.shape)
+    #print(spectral_contrast.shape)
+    #print(spectral_flatness.shape)
+    #print(spectral_rolloff.shape)
+    #print(fzero.shape)
+    #print(rms.shape)
+    #print(zero_crossing_rate.shape)
+    #print(tempo.shape)
+    #print(matrix.shape)
+    np.savetxt("Features - Audio MER\librosaNotNormalized0100.csv",
                matrix, delimiter=',', fmt="%.6f")
-    np.savetxt("librosaNormalized0100.csv", normaliza(
+    np.savetxt("Features - Audio MER\librosaNormalized0100.csv", normaliza(
         matrix), delimiter=',', fmt="%.6f")
 
 
 # Exercicio 3.1
 
 def exercicio3_1():
-    dataLib = np.genfromtxt(
-        'resultadosStor/FMrosa.csv', delimiter=",")
     #dataLib = np.genfromtxt(
-    #    'Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
+    #    'resultadosTP2/FMrosa.csv', delimiter=",")
+    dataLib = np.genfromtxt(
+        'Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
     dataTop = np.genfromtxt(
         'Features - Audio MER/top100_features_normalized.csv', delimiter=",")
     if(Calcula3_1):
@@ -149,6 +162,7 @@ def euclidean_distance(dataLib, dataTop):
             if linha1 == linha2:
                 DataFinalLib[linha1][linha2] = -1
                 DataFinalTop[linha1][linha2] = -1
+
             else:
                 DataFinalLib[linha1][linha2] = np.linalg.norm(
                     dataLib[linha1] - dataLib[linha2])
@@ -277,18 +291,32 @@ def build_matrix(musica):
     print("\n")
 
 
-
 def main():
-    # read_csv()
-    # extractLibrosa2_1_1()
-    # data = np.genfromtxt('resultadosStor/FMrosa.csv', delimiter=",")
-    warnings.filterwarnings("ignore")
-    #exercicio3_1()
+    #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
+    #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
+    #print(np.max(np.abs((np.subtract(data1,data2)))))
+    #print(np.where(np.max(np.abs(np.subtract(data1,data2))) == np.abs(np.subtract(data1,data2))))
+    #print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
+    #array = np.where(np.max(np.abs(np.subtract(data1[359],data2[359])))==np.max(np.abs(np.subtract(data1,data2))))
+    #print(array)
+    #for i in range(190):
+    #    if(np.abs(data1[359][i]-data2[359][i])==0.16059): print(i)
+    #print(data2[359][101])
+    #print(data1[359][101])
 
+##################################################################################################
+    warnings.filterwarnings("ignore")
+    # read_csv()
+    #extractLibrosa2_1_1()
+    #exercicio3_1()
+    orig_stdout = sys.stdout
+    sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
     for arq in sorted(os.listdir("Queries")):
+        
         file = arq[:-4]
         build_matrix('"'+file+'"')
         print("\n\n")
+    sys.stdout = orig_stdout
 
 
 if __name__ == "__main__":
