@@ -16,6 +16,7 @@ SR = 22050
 Calcula3_1 = True
 Features900 = "MER_audio_taffc_dataset\FeaturesQuadrantes"
 
+warnings.filterwarnings("ignore")
 
 # Exercicio 1
 def stats(array):
@@ -74,18 +75,18 @@ def extractLibrosa2_1_1():
             print(arq)
             y, sr = lb.load(path, mono=True)
 
-            mfccs = lb.feature.mfcc(y=y, sr=SR, n_mfcc=13)
+            mfccs = lb.feature.mfcc(y=y, n_mfcc=13)
             mfccs = np.apply_along_axis(stats, 1, mfccs).flatten()
 
-            spectral_centroid = lb.feature.spectral_centroid(y=y, sr=SR)
+            spectral_centroid = lb.feature.spectral_centroid(y=y)
             spectral_centroid = np.apply_along_axis(
                 stats, 1, spectral_centroid).flatten()
 
-            spectral_bandwith = lb.feature.spectral_bandwidth(y=y, sr=SR)
+            spectral_bandwith = lb.feature.spectral_bandwidth(y=y)
             spectral_bandwith = np.apply_along_axis(
                 stats, 1, spectral_bandwith).flatten()
 
-            spectral_contrast = lb.feature.spectral_contrast(y=y, sr=SR)
+            spectral_contrast = lb.feature.spectral_contrast(y=y)
             spectral_contrast = np.apply_along_axis(
                 stats, 1, spectral_contrast).flatten()
 
@@ -93,7 +94,7 @@ def extractLibrosa2_1_1():
             spectral_flatness = np.apply_along_axis(
                 stats, 1, spectral_flatness).flatten()
 
-            spectral_rolloff = lb.feature.spectral_rolloff(y=y, sr=SR)
+            spectral_rolloff = lb.feature.spectral_rolloff(y=y)
             spectral_rolloff = np.apply_along_axis(
                 stats, 1, spectral_rolloff).flatten()
 
@@ -307,10 +308,9 @@ def main():
     #print(data1[359][101])
 
 ##################################################################################################
-    warnings.filterwarnings("ignore")
     # read_csv()
     #extractLibrosa2_1_1()
-    #exercicio3_1()
+    exercicio3_1()
     orig_stdout = sys.stdout
     sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
     for arq in sorted(os.listdir("Queries")):
