@@ -113,7 +113,7 @@ def extractLibrosa2_1_1():
             zero_crossing_rate = np.apply_along_axis(
                 stats, 1, zero_crossing_rate).flatten()
 
-            tempo = lb.beat.tempo(y=y, sr=SR)
+            tempo = lb.beat.tempo(y=y)
 
             matrix[l] = np.concatenate((mfccs, spectral_centroid, spectral_bandwith, spectral_contrast,
                                        spectral_flatness, spectral_rolloff, fzero, rms, zero_crossing_rate, tempo))
@@ -295,9 +295,9 @@ def build_matrix(musica):
 
 
 def main():
-    #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
-    #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
-    #print(np.max(np.abs((np.subtract(data1,data2)))))
+    data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
+    data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
+    print(np.max(np.abs((np.subtract(data1,data2)))))
     #print(np.where(np.max(np.abs(np.subtract(data1,data2))) == np.abs(np.subtract(data1,data2))))
     #print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
     #array = np.where(np.max(np.abs(np.subtract(data1[359],data2[359])))==np.max(np.abs(np.subtract(data1,data2))))
@@ -309,7 +309,7 @@ def main():
 
 ##################################################################################################
     # read_csv()
-    #extractLibrosa2_1_1()
+    extractLibrosa2_1_1()
     exercicio3_1()
     orig_stdout = sys.stdout
     sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
@@ -322,5 +322,5 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
+
