@@ -143,7 +143,7 @@ def exercicio3_1():
     # dataLib = np.genfromtxt(
     #    'resultadosTP2/FMrosa.csv', delimiter=",")
     dataLib = np.genfromtxt(
-        'Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
+        'Features - Audio MER/librosaNormalized0100.csv', delimiter=",")
     dataTop = np.genfromtxt(
         'Features - Audio MER/top100_features_normalized.csv', delimiter=",")
     if(Calcula3_1):
@@ -233,6 +233,8 @@ def build_matrix(musica):
 
     res = np.where(musica == data[:, 0])[0][0]
 
+    DataMetadados = DataFinalLib = np.genfromtxt(
+        "MER_audio_taffc_dataset/panda_dataset_taffc_metadata_Comparator.csv", dtype=np.str_, delimiter=",")
     print("Query " + musica)
 
     # Euclidiana
@@ -298,32 +300,16 @@ def build_matrix(musica):
     print(finaltop100)
     print("\n")
 
+    MetadadosValue = DataMetadados[res-1]
+    MetadadosValue = np.argsort(MetadadosValue)
 
-def main():
-    #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
-    #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
-    # print(np.max(np.abs((np.subtract(data1,data2)))))
-    #print(np.where(np.max(np.abs(np.subtract(data1,data2))) == np.abs(np.subtract(data1,data2))))
-    # print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
-    #array = np.where(np.max(np.abs(np.subtract(data1[359],data2[359])))==np.max(np.abs(np.subtract(data1,data2))))
-    # print(array)
-    # for i in range(190):
-    #    if(np.abs(data1[359][i]-data2[359][i])==0.16059): print(i)
-    # print(data2[359][101])
-    # print(data1[359][101])
+    FinalMetadados = [data[MetadadosValue[900-i]+1][0] for i in range(21)]
+    MetadadosValue = [[MetadadosValue[900 - i]+1] for i in range(21)]
 
-    ##################################################################################################
-    # read_csv()
-    # extractLibrosa2_1_1()
-    exercicio3_1()
-    orig_stdout = sys.stdout
-    sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
-    for arq in sorted(os.listdir("Queries")):
+    print("Ranking: Metadata-------------")
+    print(FinalMetadados)
 
-        file = arq[:-4]
-        build_matrix('"'+file+'"')
-        print("\n\n")
-    sys.stdout = orig_stdout
+    print(" Score metadata =", MetadadosValue)
 
 
 def Exercicio4():
@@ -382,6 +368,33 @@ def Metadados(data):
                DataFinal, delimiter=',', fmt="%d")
 
 
+def main():
+    #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
+    #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
+    # print(np.max(np.abs((np.subtract(data1,data2)))))
+    #print(np.where(np.max(np.abs(np.subtract(data1,data2))) == np.abs(np.subtract(data1,data2))))
+    # print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
+    #array = np.where(np.max(np.abs(np.subtract(data1[359],data2[359])))==np.max(np.abs(np.subtract(data1,data2))))
+    # print(array)
+    # for i in range(190):
+    #    if(np.abs(data1[359][i]-data2[359][i])==0.16059): print(i)
+    # print(data2[359][101])
+    # print(data1[359][101])
+
+    ##################################################################################################
+    # read_csv()
+    # extractLibrosa2_1_1()
+    exercicio3_1()
+    orig_stdout = sys.stdout
+    sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
+    for arq in sorted(os.listdir("Queries")):
+
+        file = arq[:-4]
+        build_matrix('"'+file+'"')
+        print("\n\n")
+    sys.stdout = orig_stdout
+
+
 if __name__ == "__main__":
-    Exercicio4()
-    # main()
+   # Exercicio4()
+    main()
