@@ -115,7 +115,7 @@ def extractLibrosa2_1_1():
             zero_crossing_rate = np.apply_along_axis(
                 stats, 1, zero_crossing_rate).flatten()
 
-            tempo = lb.beat.tempo(y=y, sr=SR)
+            tempo = lb.beat.tempo(y=y)
 
             matrix[l] = np.concatenate((mfccs, spectral_centroid, spectral_bandwith, spectral_contrast,
                                        spectral_flatness, spectral_rolloff, fzero, rms, zero_crossing_rate, tempo))
