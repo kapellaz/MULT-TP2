@@ -333,7 +333,7 @@ def Exercicio4():
 
 
 def Metadados(data):
-    DataFinal = np.zeros((901, 901), dtype=np.int8)
+    DataFinal = np.zeros((900, 900), dtype=np.int8)
     linhas, colunas = np.shape(data)
     for linha1 in range(linhas):
 
@@ -378,7 +378,7 @@ def Metadados(data):
                         contador += 1
             DataFinal[linha1][linha2] = contador
 
-    np.savetxt("MULT-TP2/MER_audio_taffc_dataset/panda_dataset_taffc_metadata_Comparator.csv",
+    np.savetxt("MER_audio_taffc_dataset/panda_dataset_taffc_metadata_Comparator.csv",
                DataFinal, delimiter=',', fmt="%d")
 
 
