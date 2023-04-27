@@ -19,6 +19,8 @@ Features900 = "MER_audio_taffc_dataset\FeaturesQuadrantes"
 warnings.filterwarnings("ignore")
 
 # Exercicio 1
+
+
 def stats(array):
     mean = np.mean(array)
     std = np.std(array)
@@ -118,18 +120,17 @@ def extractLibrosa2_1_1():
             matrix[l] = np.concatenate((mfccs, spectral_centroid, spectral_bandwith, spectral_contrast,
                                        spectral_flatness, spectral_rolloff, fzero, rms, zero_crossing_rate, tempo))
 
-    
-    #print(mfccs.shape)
-    #print(spectral_centroid.shape)
-    #print(spectral_bandwith.shape)
-    #print(spectral_contrast.shape)
-    #print(spectral_flatness.shape)
-    #print(spectral_rolloff.shape)
-    #print(fzero.shape)
-    #print(rms.shape)
-    #print(zero_crossing_rate.shape)
-    #print(tempo.shape)
-    #print(matrix.shape)
+    # print(mfccs.shape)
+    # print(spectral_centroid.shape)
+    # print(spectral_bandwith.shape)
+    # print(spectral_contrast.shape)
+    # print(spectral_flatness.shape)
+    # print(spectral_rolloff.shape)
+    # print(fzero.shape)
+    # print(rms.shape)
+    # print(zero_crossing_rate.shape)
+    # print(tempo.shape)
+    # print(matrix.shape)
     np.savetxt("Features - Audio MER\librosaNotNormalized0100.csv",
                matrix, delimiter=',', fmt="%.6f")
     np.savetxt("Features - Audio MER\librosaNormalized0100.csv", normaliza(
@@ -139,7 +140,7 @@ def extractLibrosa2_1_1():
 # Exercicio 3.1
 
 def exercicio3_1():
-    #dataLib = np.genfromtxt(
+    # dataLib = np.genfromtxt(
     #    'resultadosTP2/FMrosa.csv', delimiter=",")
     dataLib = np.genfromtxt(
         'Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
@@ -201,7 +202,6 @@ def manhattan_distance(dataLib, dataTop):
                DataFinalTop, delimiter=',', fmt="%.6f")
 
 
-
 def cosseno_distance(dataLib, dataTop):
     linhas, colunas = np.shape(dataLib)
 
@@ -225,22 +225,23 @@ def cosseno_distance(dataLib, dataTop):
                DataFinalLib, delimiter=',', fmt="%.6f")
     np.savetxt("Features - Audio MER/top100_features_normalized_cosseno.csv",
                DataFinalTop, delimiter=',', fmt="%.6f")
-    
 
 
 def build_matrix(musica):
     file = 'MER_audio_taffc_dataset/panda_dataset_taffc_metadata.csv'
-    data = np.genfromtxt(file, dtype=np.str_,delimiter=",")
+    data = np.genfromtxt(file, dtype=np.str_, delimiter=",")
 
-    res = np.where(musica == data[:,0])[0][0]
-    
+    res = np.where(musica == data[:, 0])[0][0]
+
     print("Query " + musica)
 
-    #Euclidiana
-    DataFinalLib = np.genfromtxt("Features - Audio MER/EuclidianaLibrosa.csv", dtype=np.str_,delimiter=",")
+    # Euclidiana
+    DataFinalLib = np.genfromtxt(
+        "Features - Audio MER/EuclidianaLibrosa.csv", dtype=np.str_, delimiter=",")
     #DataFinalLib = np.genfromtxt("resultadosTP2\der.csv", dtype=np.str_,delimiter=",")
 
-    DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_euclidiana.csv", dtype=np.str,delimiter=",")
+    DataFinalTop = np.genfromtxt(
+        "Features - Audio MER/top100_features_normalized_euclidiana.csv", dtype=np.str, delimiter=",")
 
     librosaValues = DataFinalLib[res-1]
     librosaValues = np.argsort(librosaValues)
@@ -256,9 +257,11 @@ def build_matrix(musica):
     print(finaltop100)
     print("\n")
 
-    #Manhathan
-    DataFinalLib = np.genfromtxt("Features - Audio MER\ManhattanLibrosa.csv", dtype=np.str_,delimiter=",")
-    DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_manhattan.csv", dtype=np.str,delimiter=",")
+    # Manhathan
+    DataFinalLib = np.genfromtxt(
+        "Features - Audio MER\ManhattanLibrosa.csv", dtype=np.str_, delimiter=",")
+    DataFinalTop = np.genfromtxt(
+        "Features - Audio MER/top100_features_normalized_manhattan.csv", dtype=np.str, delimiter=",")
 
     librosaValues = DataFinalLib[res-1]
     librosaValues = np.argsort(librosaValues)
@@ -274,10 +277,12 @@ def build_matrix(musica):
     print(finaltop100)
     print("\n")
 
-    #Cosseno
+    # Cosseno
 
-    DataFinalLib = np.genfromtxt("Features - Audio MER\CossenoLibrosa.csv", dtype=np.str_,delimiter=",")
-    DataFinalTop = np.genfromtxt("Features - Audio MER/top100_features_normalized_cosseno.csv", dtype=np.str,delimiter=",")
+    DataFinalLib = np.genfromtxt(
+        "Features - Audio MER\CossenoLibrosa.csv", dtype=np.str_, delimiter=",")
+    DataFinalTop = np.genfromtxt(
+        "Features - Audio MER/top100_features_normalized_cosseno.csv", dtype=np.str, delimiter=",")
 
     librosaValues = DataFinalLib[res-1]
     librosaValues = np.argsort(librosaValues)
@@ -295,32 +300,89 @@ def build_matrix(musica):
 
 
 def main():
-    data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
-    data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
-    print(np.max(np.abs((np.subtract(data1,data2)))))
+    #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
+    #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
+    # print(np.max(np.abs((np.subtract(data1,data2)))))
     #print(np.where(np.max(np.abs(np.subtract(data1,data2))) == np.abs(np.subtract(data1,data2))))
-    #print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
+    # print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
     #array = np.where(np.max(np.abs(np.subtract(data1[359],data2[359])))==np.max(np.abs(np.subtract(data1,data2))))
-    #print(array)
-    #for i in range(190):
+    # print(array)
+    # for i in range(190):
     #    if(np.abs(data1[359][i]-data2[359][i])==0.16059): print(i)
-    #print(data2[359][101])
-    #print(data1[359][101])
+    # print(data2[359][101])
+    # print(data1[359][101])
 
-##################################################################################################
+    ##################################################################################################
     # read_csv()
-    extractLibrosa2_1_1()
+    # extractLibrosa2_1_1()
     exercicio3_1()
     orig_stdout = sys.stdout
     sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
     for arq in sorted(os.listdir("Queries")):
-        
+
         file = arq[:-4]
         build_matrix('"'+file+'"')
         print("\n\n")
     sys.stdout = orig_stdout
 
 
+def Exercicio4():
+    data = np.genfromtxt(
+        'MER_audio_taffc_dataset/panda_dataset_taffc_metadata.csv', dtype=np.str_, delimiter=",")
+    Metadados(data[1::][::])
+
+
+def Metadados(data):
+    DataFinal = np.zeros((900, 900), dtype=np.int8)
+    linhas, colunas = np.shape(data)
+    for linha1 in range(linhas):
+
+        titulo1 = data[linha1][1]
+        Quadrante1 = data[linha1][3]
+        Emocoes1 = data[linha1][9]
+       # Emocoes1.strip("\"")
+        EmocoesSplits1 = Emocoes1.split(";")
+
+        Generos1 = data[linha1][11]
+
+        GenerosSplits1 = Generos1.split(";")
+
+        for linha2 in range(linhas):
+            contador = 0
+            titulo2 = data[linha2][1]
+
+            if(titulo1 == titulo2):  # compara os titulos
+                contador += 1
+
+            Quadrante2 = data[linha2][3]
+            if(Quadrante1 == Quadrante2):  # compara Quadrantes
+                contador += 1
+
+            Emocoes2 = data[linha2][9]
+          #  Emocoes2.strip("\"")
+            EmocoesSplits2 = Emocoes2.split(";")
+
+            for emo1 in EmocoesSplits1:
+                for emo2 in EmocoesSplits2:
+                    if (emo1.strip("\" ") == emo2.strip("\" ")):
+                        contador += 1
+
+            Generos2 = data[linha2][11]
+         #   Generos2.strip("\"")
+            GenerosSplits2 = Generos2.split(";")
+
+            for Gen1 in GenerosSplits1:
+                for Gen2 in GenerosSplits2:
+
+                    if (Gen1.strip("\" ") == Gen2.strip("\" ")):
+                        contador += 1
+            DataFinal[linha1][linha2] = contador
+
+    np.savetxt("MER_audio_taffc_dataset/panda_dataset_taffc_metadata_Comparator.csv",
+               DataFinal, delimiter=',', fmt="%d")
+
+
 if __name__ == "__main__":
-    main()
+    Exercicio4()
+    # main()
 

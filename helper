@@ -147,3 +147,26 @@ NO F0 :
 
 
 
+AULA 3:
+
+    no 4.1 obter os 20 ranking com bases nos metadados.
+
+    Quadrante coluna B
+    Emoçoes - MoodsStrSplit
+    GenresStr - 
+
+Exemplo: 202045 -  Q4, BittersSweer, Gentle, ------, Reggae
+
+
+Ir ao aritsta do 202045 comparar com o de baixo
+
+    contador implementa pa um se Quarante é igua
+    se tiver alguma emoção 
+
+    Contador pa 1 se o Genero for igual
+
+    Comparar basicamente(  :)
+
+
+
+
