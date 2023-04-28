@@ -140,10 +140,9 @@ def extractLibrosa2_1_1():
 # Exercicio 3.1
 
 def exercicio3_1():
+    dataLib = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
     # dataLib = np.genfromtxt(
-    #    'resultadosTP2/FMrosa.csv', delimiter=",")
-    dataLib = np.genfromtxt(
-        'Features - Audio MER/librosaNormalized0100.csv', delimiter=",")
+    #   'Features - Audio MER/librosaNormalized0100.csv', delimiter=",")
     dataTop = np.genfromtxt(
         'Features - Audio MER/top100_features_normalized.csv', delimiter=",")
     if(Calcula3_1):
@@ -233,8 +232,6 @@ def build_matrix(musica):
 
     res = np.where(musica == data[:, 0])[0][0]
 
-    DataMetadados = DataFinalLib = np.genfromtxt(
-        "MER_audio_taffc_dataset/panda_dataset_taffc_metadata_Comparator.csv", dtype=np.str_, delimiter=",")
     print("Query " + musica)
 
     # Euclidiana
@@ -261,7 +258,7 @@ def build_matrix(musica):
 
     # Manhathan
     DataFinalLib = np.genfromtxt(
-        "Features - Audio MER\ManhattanLibrosa.csv", dtype=np.str_, delimiter=",")
+        "Features - Audio MER/ManhattanLibrosa.csv", dtype=np.str_, delimiter=",")
     DataFinalTop = np.genfromtxt(
         "Features - Audio MER/top100_features_normalized_manhattan.csv", dtype=np.str, delimiter=",")
 
@@ -271,45 +268,55 @@ def build_matrix(musica):
     top100Values = DataFinalTop[res-1]
     top100Values = np.argsort(top100Values)
 
-    finalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
-    finaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
+    MfinalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
+    Mfinaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
     print("Manhatan Librosa:")
-    print(finalLibrosa)
+    print(MfinalLibrosa)
     print("Manhatan Top 100:")
-    print(finaltop100)
+    print(Mfinaltop100)
     print("\n")
 
     # Cosseno
 
     DataFinalLib = np.genfromtxt(
-        "Features - Audio MER\CossenoLibrosa.csv", dtype=np.str_, delimiter=",")
+        "Features - Audio MER/CossenoLibrosa.csv", dtype=np.str_, delimiter=",")
     DataFinalTop = np.genfromtxt(
         "Features - Audio MER/top100_features_normalized_cosseno.csv", dtype=np.str, delimiter=",")
 
     librosaValues = DataFinalLib[res-1]
+
     librosaValues = np.argsort(librosaValues)
 
     top100Values = DataFinalTop[res-1]
     top100Values = np.argsort(top100Values)
 
-    finalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
-    finaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
+    CfinalLibrosa = [data[librosaValues[i]+1][0] for i in range(21)]
+    Cfinaltop100 = [data[top100Values[i]+1][0] for i in range(21)]
     print("Cosine Librosa:")
-    print(finalLibrosa)
+    print(CfinalLibrosa)
     print("Cosine Top 100:")
-    print(finaltop100)
+    print(Cfinaltop100)
     print("\n")
 
-    MetadadosValue = DataMetadados[res-1]
-    MetadadosValue = np.argsort(MetadadosValue)
+    DataMetadados = np.genfromtxt(
+        "MER_audio_taffc_dataset/panda_dataset_taffc_metadata_Comparator.csv", dtype=np.str_, delimiter=",")
 
-    FinalMetadados = [data[MetadadosValue[900-i]+1][0] for i in range(21)]
-    MetadadosValue = [[MetadadosValue[900 - i]+1] for i in range(21)]
+    MetadadosValue = DataMetadados[res-1].astype(int)
+
+    Ordenados = np.argsort(MetadadosValue)
+
+    ValoresFinais = [MetadadosValue[Ordenados[899-i]] for i in range(21)]
+
+    FinalMetadados = [data[Ordenados[899-i]+1][0] for i in range(21)]
 
     print("Ranking: Metadata-------------")
     print(FinalMetadados)
+    print("\n")
+    print(" Score metadata =", ValoresFinais)
 
-    print(" Score metadata =", MetadadosValue)
+    print("\n\n")
+
+    return finalLibrosa, finaltop100, MfinalLibrosa, Mfinaltop100, CfinalLibrosa, Cfinaltop100, FinalMetadados
 
 
 def Exercicio4():
@@ -368,6 +375,49 @@ def Metadados(data):
                DataFinal, delimiter=',', fmt="%d")
 
 
+def Precision(finalLibrosa, finaltop100, MfinalLibrosa, Mfinaltop100, CfinalLibrosa, Cfinaltop100, FinalMetadados, file):
+    conta = 0
+    Precisao = np.zeros(6)
+    for mus in finalLibrosa:
+        if mus in FinalMetadados:
+            conta += 1
+    Precisao[0] = (conta - 1)/20 * 100
+    conta = 0
+    for mus in finaltop100:
+        if mus in FinalMetadados:
+            conta += 1
+
+    Precisao[1] = ((conta - 1)/20)*100
+    conta = 0
+    for mus in MfinalLibrosa:
+        if mus in FinalMetadados:
+            conta += 1
+
+    Precisao[2] = ((conta - 1)/20)*100
+    conta = 0
+    for mus in Mfinaltop100:
+        if mus in FinalMetadados:
+            conta += 1
+
+    Precisao[3] = ((conta - 1)/20)*100
+    conta = 0
+    for mus in CfinalLibrosa:
+        if mus in FinalMetadados:
+            conta += 1
+    Precisao[4] = ((conta - 1)/20)*100
+    conta = 0
+    for mus in Cfinaltop100:
+        if mus in FinalMetadados:
+            conta += 1
+
+    Precisao[5] = ((conta - 1)/20)*100
+
+    print("Precisão: EucliLib, EucliTop100,ManhaLib, ManhaTop100,CosineLib, CosineTop100")
+    print(Precisao)
+
+    return Precisao
+
+
 def main():
     #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
     #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
@@ -385,16 +435,30 @@ def main():
     # read_csv()
     # extractLibrosa2_1_1()
     exercicio3_1()
+    # Exercicio4()
     orig_stdout = sys.stdout
     sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
+    conta = 0
+    listaPrecisao = []
     for arq in sorted(os.listdir("Queries")):
 
         file = arq[:-4]
-        build_matrix('"'+file+'"')
+        finalLibrosa, finaltop100, MfinalLibrosa, Mfinaltop100, CfinalLibrosa, Cfinaltop100, FinalMetadados = build_matrix(
+            '"'+file+'"')
+        lista = Precision(finalLibrosa, finaltop100, MfinalLibrosa,
+                          Mfinaltop100, CfinalLibrosa, Cfinaltop100, FinalMetadados, file)
+        listaPrecisao.append(lista)
         print("\n\n")
+
+    Der = [sublista[0] for sublista in listaPrecisao]
+    Dmr = [sublista[2] for sublista in listaPrecisao]
+    Dcr = [sublista[4] for sublista in listaPrecisao]
+    print("Precision!\n")
+    print("Precision der: ", Der, " *** ", np.mean(Der))
+    print("Precision dmr: ", Dmr, " *** ", np.mean(Dmr))
+    print("Precision dcr: ", Dcr, " *** ", np.mean(Dcr))
     sys.stdout = orig_stdout
 
 
 if __name__ == "__main__":
-   # Exercicio4()
     main()
