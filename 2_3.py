@@ -4,6 +4,18 @@ import numpy as np
 # parametros default: sr = 22050 Hz, mono, 
 # window length = frame length = 92.88 ms || 2048 e hop length = 23.22 ms || 512
 
+
+"""
+check:
+zrc: done
+rms: done
+mfcc 
+spectral_centroid
+spectral_bandwith
+spectral_flatness
+spectral_rolloff
+"""
+
 hop_length = 512
 frame_length = 2048
 
@@ -32,6 +44,7 @@ def spectral_rolloff(signal,windows,start,end):
     return array
 
 
+
 # Measure the energy of a signal over a window
 def rms(signal,windows,start,end):
     array = np.zeros((1,windows))   
@@ -46,10 +59,11 @@ def rms(signal,windows,start,end):
 def zero_crossing_rate(signal,windows,start,end):
     array = np.zeros((1,windows))
     # zcr = (1/2N) sum(de n=2 a N)( |sinal[x[n]]-sinal[x[n-1]]| )
+    # N = window length (number of samples)
+    # x[n] = signal amplitude at time sample n
     for i in range(windows):
         array[0,i] = np.sum(np.abs(np.diff(signal[start[i]:end[i]] > 0)))/(frame_length)
     return array
-
 
 
 
