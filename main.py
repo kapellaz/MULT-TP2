@@ -333,7 +333,6 @@ def Metadados(data):
         titulo1 = data[linha1][1]
         Quadrante1 = data[linha1][3]
         Emocoes1 = data[linha1][9]
-       # Emocoes1.strip("\"")
         EmocoesSplits1 = Emocoes1.split(";")
 
         Generos1 = data[linha1][11]
@@ -352,7 +351,6 @@ def Metadados(data):
                 contador += 1
 
             Emocoes2 = data[linha2][9]
-          #  Emocoes2.strip("\"")
             EmocoesSplits2 = Emocoes2.split(";")
 
             for emo1 in EmocoesSplits1:
@@ -361,9 +359,9 @@ def Metadados(data):
                         contador += 1
 
             Generos2 = data[linha2][11]
-         #   Generos2.strip("\"")
             GenerosSplits2 = Generos2.split(";")
 
+           
             for Gen1 in GenerosSplits1:
                 for Gen2 in GenerosSplits2:
 
@@ -378,43 +376,31 @@ def Metadados(data):
 def Precision(finalLibrosa, finaltop100, MfinalLibrosa, Mfinaltop100, CfinalLibrosa, Cfinaltop100, FinalMetadados, file):
     conta = 0
     Precisao = np.zeros(6)
-    for mus in finalLibrosa:
-        if mus in FinalMetadados:
-            conta += 1
+    conta = len(np.intersect1d(finalLibrosa, FinalMetadados))
     Precisao[0] = (conta - 1)/20 * 100
-    conta = 0
-    for mus in finaltop100:
-        if mus in FinalMetadados:
-            conta += 1
 
+    conta = 0
+    conta = len(np.intersect1d(finaltop100, FinalMetadados))
     Precisao[1] = ((conta - 1)/20)*100
-    conta = 0
-    for mus in MfinalLibrosa:
-        if mus in FinalMetadados:
-            conta += 1
 
+    conta = 0
+    conta = len(np.intersect1d(MfinalLibrosa, FinalMetadados))
     Precisao[2] = ((conta - 1)/20)*100
-    conta = 0
-    for mus in Mfinaltop100:
-        if mus in FinalMetadados:
-            conta += 1
 
+    conta = 0
+    conta = len(np.intersect1d(Mfinaltop100, FinalMetadados))
     Precisao[3] = ((conta - 1)/20)*100
-    conta = 0
-    for mus in CfinalLibrosa:
-        if mus in FinalMetadados:
-            conta += 1
-    Precisao[4] = ((conta - 1)/20)*100
-    conta = 0
-    for mus in Cfinaltop100:
-        if mus in FinalMetadados:
-            conta += 1
 
+    conta = 0
+    conta = len(np.intersect1d(CfinalLibrosa, FinalMetadados))
+    Precisao[4] = ((conta - 1)/20)*100
+
+    conta = 0
+    conta = len(np.intersect1d(Cfinaltop100, FinalMetadados))
     Precisao[5] = ((conta - 1)/20)*100
 
     print("Precisão: EucliLib, EucliTop100,ManhaLib, ManhaTop100,CosineLib, CosineTop100")
     print(Precisao)
-
     return Precisao
 
 
@@ -434,7 +420,7 @@ def main():
     ##################################################################################################
     # read_csv()
     # extractLibrosa2_1_1()
-    exercicio3_1()
+   # exercicio3_1()
     # Exercicio4()
     orig_stdout = sys.stdout
     sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
