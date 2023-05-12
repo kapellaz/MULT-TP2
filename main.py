@@ -40,8 +40,6 @@ def read_csv():
 
     linhas, colunas = np.shape(data)
 
-    fNames = data[0, 1:colunas - 1]
-
     data = data[1::, 1:(colunas - 1)].astype(float)
 
     dataNormalizada = normaliza(data)
@@ -65,7 +63,6 @@ def normaliza(data):
 
 # Exercicio 2
 def extractLibrosa2_1_1():
-    #features = np.zeros(900,190)
 
     matrix = np.zeros((900, 190), dtype=np.float64)
 
@@ -102,7 +99,7 @@ def extractLibrosa2_1_1():
 
             min = 20
             max = 11025
-            #fzero = lb.core.yin(y=y, fmin=min, fmax=max)
+
             fzero = lb.yin(y=y, fmin=min, fmax=max)
             fzero[fzero == max] = 0
 
@@ -237,7 +234,7 @@ def build_matrix(musica):
     # Euclidiana
     DataFinalLib = np.genfromtxt(
         "Features - Audio MER/EuclidianaLibrosa.csv", dtype=np.str_, delimiter=",")
-    #DataFinalLib = np.genfromtxt("resultadosTP2\der.csv", dtype=np.str_,delimiter=",")
+    # DataFinalLib = np.genfromtxt("resultadosTP2\der.csv", dtype=np.str_,delimiter=",")
 
     DataFinalTop = np.genfromtxt(
         "Features - Audio MER/top100_features_normalized_euclidiana.csv", dtype=np.str, delimiter=",")
@@ -361,7 +358,6 @@ def Metadados(data):
             Generos2 = data[linha2][11]
             GenerosSplits2 = Generos2.split(";")
 
-           
             for Gen1 in GenerosSplits1:
                 for Gen2 in GenerosSplits2:
 
@@ -405,23 +401,11 @@ def Precision(finalLibrosa, finaltop100, MfinalLibrosa, Mfinaltop100, CfinalLibr
 
 
 def main():
-    #data1 = np.genfromtxt('resultadosTP2/FMrosa.csv', delimiter=",")
-    #data2 = np.genfromtxt('Features - Audio MER\librosaNormalized0100.csv', delimiter=",")
-    # print(np.max(np.abs((np.subtract(data1,data2)))))
-    #print(np.where(np.max(np.abs(np.subtract(data1,data2))) == np.abs(np.subtract(data1,data2))))
-    # print(np.max(np.abs(np.subtract(data1[359],data2[359]))))
-    #array = np.where(np.max(np.abs(np.subtract(data1[359],data2[359])))==np.max(np.abs(np.subtract(data1,data2))))
-    # print(array)
-    # for i in range(190):
-    #    if(np.abs(data1[359][i]-data2[359][i])==0.16059): print(i)
-    # print(data2[359][101])
-    # print(data1[359][101])
-
     ##################################################################################################
-    # read_csv()
-    # extractLibrosa2_1_1()
-   # exercicio3_1()
-    # Exercicio4()
+    read_csv()
+    extractLibrosa2_1_1()
+    exercicio3_1()
+    Exercicio4()
     orig_stdout = sys.stdout
     sys.stdout = open('Features - Audio MER/rankings.txt', 'w')
     conta = 0
